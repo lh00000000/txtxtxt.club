@@ -1,0 +1,1 @@
+module for meta info about company

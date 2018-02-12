@@ -108,11 +108,28 @@ const crop = (buffer, width, height, color = "default") =>
 const serialize = buffer =>
   ({
     text: buffer.map(row => _.map(row, "char").join("")).join("\n"),
-    color: _.sample(_.sample(buffer)).color // try to at all rows for color
+    colors: buffer.reduce(
+      ({colorBuffer, colorLookup}, row) => ({
+        colorBuffer: colorBuffer.concat(
+          // row as array of integer representation of color
+          [row.map(cell => _.indexOf(colorLookup, cell.color))]
+        ),
+        colorLookup
+      }),
+      {
+        colorBuffer: [],
+        colorLookup: _.sortedUniq(_.flatMap(buffer, row => _.map(row, "color")).sort())
+      }
+    )
   })
 
-const deserialize = serialized =>
-  buffer(serialized.text, serialized.color)
+const deserialize = ({text, colors: {colorBuffer, colorLookup}}) =>
+  zipmap(
+    buffer(text),
+    colorBuffer,
+    ([{char}, colorIdx]) => ({char, color: colorLookup[colorIdx]})
+  )
+
 
 module.exports = {
   blankCell,
