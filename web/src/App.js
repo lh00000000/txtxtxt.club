@@ -30,15 +30,15 @@ const header = focusedColor => (
 class App extends Component {
 
   componentDidMount() {
-    document.querySelector("html")
-      .addEventListener("click", ev => {
-        console.log(ev.target.tagName)
+    // document.querySelector("html")
+    //   .addEventListener("click", ev => {
+    //     console.log(ev.target.tagName)
 
-        if (ev.target.tagName != "A") {
-          ev.preventDefault()
-          this.props.clearFocus()
-        }
-      })
+    //     if (ev.target.tagName != "A") {
+    //       ev.preventDefault()
+    //       this.props.clearFocus()
+    //     }
+    //   })
   }
   render() {
     return (
