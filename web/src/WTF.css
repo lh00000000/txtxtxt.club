@@ -1,0 +1,27 @@
+.helpIconContainer {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  font-weight: normal;
+  font-size: 1em;
+}
+
+.helpIconContainer:hover {
+  font-weight: bold;
+  font-size: 1.3em;
+}
+
+.helpModal {
+  position: absolute;
+  max-width: 400px;
+  left: 50%;
+  top: 50%;
+  margin-left: -200px;
+  margin-top: -200px;
+  color: text;
+  background-color: rgba(255,255,255, 0.8);
+  z-index: 99999999; /* THE WEB IS THE FUTURE */
+  padding: 8px;
+}
