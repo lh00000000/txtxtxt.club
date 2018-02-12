@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prerender": "node prerender.js art > ../web/src/prerenders.js"
+    "prerender": "node prerender.js art > ../web/src/prerenders.json"
   },
   "author": "",
   "license": "ISC",
