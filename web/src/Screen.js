@@ -1,14 +1,13 @@
-import React, { Component } from "react"
 import "./Screen.css"
-import { connect } from "react-redux"
 import _ from "lodash"
-import {emailByColor} from './data.js'
-
+import React from "react"
+import { connect } from "react-redux"
+import { emailByColor } from "./data.js"
 
 const Cell = ({
   cellDatum: { color, char },
   focusedUnfocusedNormal,
-  onCellClick
+  changeFocus
 }) => (
   <span
     className="cell"
@@ -20,7 +19,7 @@ const Cell = ({
     }}
     onClick={ev => {
       ev.preventDefault()
-      onCellClick()
+      char === " " ? changeFocus(null) : changeFocus(emailByColor[color])
     }}
   >
     {char.replace(/ /g, "\u00a0")}
@@ -32,12 +31,7 @@ const Row = ({ rowBuffer, getCellFocus, changeFocus }) => (
     {rowBuffer
       .map((cellDatum, i) => ({
         key: i,
-        onCellClick: () => {
-          console.log(cellDatum)
-          return cellDatum.char === " "
-            ? changeFocus(null)
-            : changeFocus(emailByColor[cellDatum.color])
-        },
+        changeFocus,
         cellDatum,
         focusedUnfocusedNormal: getCellFocus(cellDatum)
       }))

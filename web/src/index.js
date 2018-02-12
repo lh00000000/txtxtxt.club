@@ -1,22 +1,23 @@
+import "./index.css"
+import _ from "lodash"
+import App from "./App"
 import React from "react"
 import ReactDOM from "react-dom"
-import "./index.css"
-import App from "./App"
-import Bio from "./Bio"
-import registerServiceWorker from "./registerServiceWorker"
 import { createStore } from "redux"
+import { employees, emailByHiringOrder } from "./data.js"
 import { Provider } from "react-redux"
-import { blankBuffer, deserialize } from "ascii2d"
-import * as company from "company"
-import _ from "lodash"
-import { employees, emailByColor, emailByHiringOrder } from "./data.js"
+
+
+const LATEST_BUFFER =
+  employees[emailByHiringOrder[_.keys(employees).length - 1]].buffer
 
 const DEFAULT_STATE = {
-  buffer: employees[emailByHiringOrder[7]].buffer,
+  buffer: LATEST_BUFFER,
   selected: {
     color: null,
     email: null
-  }
+  },
+  isHelpShown: false
 }
 
 const store = createStore((state = DEFAULT_STATE, action) => {
@@ -33,11 +34,21 @@ const store = createStore((state = DEFAULT_STATE, action) => {
     case "CLEAR_FOCUS_EMPLOYEE":
       return {
         ...state,
-        buffer: employees[emailByHiringOrder[7]].buffer,
+        buffer: LATEST_BUFFER,
         selected: {
           email: null,
           color: null
         }
+      }
+    case "SHOW_HELP":
+      return {
+        ...state,
+        isHelpShown: true
+      }
+    case "HIDE_HELP":
+      return {
+        ...state,
+        isHelpShown: false
       }
     default:
       return state

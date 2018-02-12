@@ -1,7 +1,7 @@
-import React from "react"
-import { connect } from "react-redux"
 import "./Bio.css"
 import _ from "lodash"
+import React from "react"
+import { connect } from "react-redux"
 import { employees, emailByHiringOrder } from "./data.js"
 
 const randomCoolThing = () =>
@@ -80,7 +80,8 @@ const NobodyBio = ({ focusEmployee }) => (
   <div>
     <span>txtxtxt is </span>
     {oxford(
-      _.range(8).map(i => nameLink(emailByHiringOrder[i], focusEmployee)),
+      _.range(_.keys(employees).length)
+        .map(i => nameLink(emailByHiringOrder[i], focusEmployee)),
       <span>, </span>,
       <span> and </span>
     ).concat([<span>.</span>])}
