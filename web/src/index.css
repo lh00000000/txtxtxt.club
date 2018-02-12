@@ -1,18 +1,9 @@
 * {
-    font-family: "Courier", monospace;
+  font-family: "Courier", monospace;
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
-  background-color: rgb(70, 82, 96);
+  background-color: hsl(132, 12%, 9%);
 }
-
-.App {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 800px;
-
-}
-
