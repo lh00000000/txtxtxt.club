@@ -1,11 +1,10 @@
 {
-  "name": "postlight",
+  "name": "txtxtxt-club",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "ascii2d": "file:../ascii2d",
     "company": "file:../company",
-    "d3": "^4.13.0",
     "lodash": "^4.17.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -23,6 +22,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "publish": "react-scripts build && aws s3 sync build/ s3://txtxtxt.club"
   }
 }
