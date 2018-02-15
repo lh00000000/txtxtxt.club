@@ -1,1 +1,1 @@
-module for meta info about company
+module for meta info about txtxtxt (the company)

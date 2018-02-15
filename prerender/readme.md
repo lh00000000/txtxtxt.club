@@ -4,29 +4,32 @@ pipeline for
 
 
 ## usage:
-make sure you do this first
-
-```
-$ npm link ../ascii2d
-$ npm link ../company
-```
+make sure you
+`npm install`
 
 then you can
 `npm run prerender`
 
-which will dump `prerendered.js` into `/web`
+which will dump `prerendered.json` into `../web/src`
 
 which you can use by doing
 
 ```
-var ascii2d = require('ascii2d')
-var prerendered = require()
+import { deserialize } from "ascii2d"
+import serializedPrerenders from "./prerenders.json"
+
+const buffersByEmail = _.fromPairs(
+  _.toPairs(serializedPrerenders).map(([email, serialized]) => [
+    email,
+    deserialize(serialized)
+  ])
+)
 
 class App extends React.Component {
     render() {
         var email = 'meghan'
         var serialized = load('timeline.json')[email]
-        var buffer = ascii2d.deserialize(serialized)
+        var buffer = buffersByEmail[email]
         return <Screen buffer={buffer} />
     }
 }
@@ -35,3 +38,4 @@ class App extends React.Component {
 # making more art
 copy a file in /art
 make sure the name of it is {HIRE_ORDER}-{EMPLOYEE_EMAIL}.txt
+(you should make sure an entry for your employee exists in `../company` first though)
