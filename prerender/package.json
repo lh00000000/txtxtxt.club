@@ -12,6 +12,8 @@
     "lodash": "^4.17.5"
   },
   "devDependencies": {
+    "ascii2d": "file:../ascii2d",
+    "company": "file:../company",
     "eslint": "^4.17.0",
     "eslint-config-standard": "^11.0.0-beta.0",
     "eslint-plugin-import": "^2.8.0",
