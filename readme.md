@@ -21,6 +21,7 @@ the project is organized into four subprojects to motivate decoupling.
   * `npm run test` - should have full test coverage
   * `npm run build` to create bundled js
 * `company/` - employee data as a package
+  * names stolen from francis tseng's game "the founder: a dystopian startup simulator" `https://github.com/frnsys/the_founder`
 
 ### why would you make it so i have to cd and npm install everywhere?
 `$ sh i_dont_have_time_for_this.sh`
