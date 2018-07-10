@@ -3,9 +3,12 @@ import _ from "lodash"
 import React from "react"
 import { connect } from "react-redux"
 import { emailByColor } from "./data.js"
+import { hiringOrder } from "company"
+
 
 const Cell = ({
   cellDatum: { color, char },
+  focusedColor,
   focusedUnfocusedNormal,
   changeFocus
 }) => (
@@ -19,18 +22,56 @@ const Cell = ({
     }}
     onClick={ev => {
       ev.preventDefault()
-      char === " " ? changeFocus(null) : changeFocus(emailByColor[color])
+      let currentHiringOrder = _.isNull(focusedColor)
+          ? hiringOrder.length
+          : hiringOrder.indexOf(emailByColor[focusedColor])
+
+      let targetHiringOrder =
+        char === " "
+          ? hiringOrder.length
+          : hiringOrder.indexOf(emailByColor[color])
+
+
+      let keyframeOrders = [currentHiringOrder, targetHiringOrder].sort()
+
+      let frames = _.slice(hiringOrder, keyframeOrders[0], keyframeOrders[1])
+      let orderedFrames =
+        currentHiringOrder > targetHiringOrder
+          ? frames.reverse()
+          : frames
+
+      changeFocus(
+        char === " "
+          ? orderedFrames.concat([null])
+          : orderedFrames
+      )
+      // char === " "
+      //   ? changeFocus(
+      //     _.slice(
+      //         hiringOrder,
+      //         hiringOrder.indexOf(currentEmail),
+      //       )
+      //     )
+      //   : changeFocus(
+      //     _.slice(
+      //       hiringOrder,
+      //       hiringOrder.indexOf(currentEmail),
+      //       hiringOrder.indexOf(targetEmail)
+      //     )
+      //   )
+
     }}
   >
     {char.replace(/ /g, "\u00a0")}
   </span>
 )
 
-const Row = ({ rowBuffer, getCellFocus, changeFocus }) => (
+const Row = ({ rowBuffer, focusedColor, getCellFocus, changeFocus }) => (
   <div>
     {rowBuffer
       .map((cellDatum, i) => ({
         key: i,
+        focusedColor,
         changeFocus,
         cellDatum,
         focusedUnfocusedNormal: getCellFocus(cellDatum)
@@ -39,12 +80,13 @@ const Row = ({ rowBuffer, getCellFocus, changeFocus }) => (
   </div>
 )
 
-const Screen = ({ buffer, getCellFocus, changeFocus }) => (
+const Screen = ({ buffer, focusedColor, getCellFocus, changeFocus }) => (
   <div className="Screen">
     {buffer
       .map((rowBuffer, i) => ({
         key: i,
         rowBuffer,
+        focusedColor,
         getCellFocus,
         changeFocus
       }))
@@ -55,15 +97,33 @@ const Screen = ({ buffer, getCellFocus, changeFocus }) => (
 export default connect(
   ({ buffer, selected: { color: focusedColor } }) => ({
     buffer,
+    focusedColor,
     getCellFocus: ({ color: cellColor }) =>
       _.isNull(focusedColor)
         ? "NORMAL"
         : focusedColor === cellColor ? "FOCUSED" : "UNFOCUSED"
   }),
   dispatch => ({
-    changeFocus: toWho =>
-      _.isNull(toWho)
-        ? dispatch({ type: "CLEAR_FOCUS_EMPLOYEE" })
-        : dispatch({ type: "FOCUS_EMPLOYEE", email: toWho })
+    changeFocus: (frames) => {
+
+      (function tick(remainingFrames) {
+
+        if (remainingFrames.length > 0) {
+          let toWho = remainingFrames[0]
+
+          if (_.isNull(toWho)) {
+            dispatch({ type: "CLEAR_FOCUS_EMPLOYEE" })
+          } else {
+            dispatch({ type: "FOCUS_EMPLOYEE", email: toWho })
+
+            setTimeout(
+              function() {tick(remainingFrames.slice(1))},
+              1000/60
+            )
+          }
+
+        }
+      })(frames)
+    }
   })
 )(Screen)
